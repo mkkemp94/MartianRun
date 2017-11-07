@@ -1,16 +1,14 @@
 package com.mygdx.martianrun;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
+import com.mygdx.martianrun.screens.GameScreen;
 
-public class MartianRun extends ApplicationAdapter {
+public class MartianRun extends Game {
 
 	@Override
 	public void create () {
-
+		setScreen(new GameScreen());
 	}
 
-	@Override
-	public void render () {
-
-	}
+	// Get rid of the render function. Let the parent class handle it.
 }
