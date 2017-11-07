@@ -11,6 +11,7 @@ public class Runner extends GameActor {
 
     private boolean dodging;
     private boolean jumping;
+    private boolean hit;
 
     public Runner(Body body) {
         super(body);
@@ -22,7 +23,7 @@ public class Runner extends GameActor {
     }
 
     public void jump() {
-        if (!(jumping || dodging)) {
+        if (!(jumping || dodging || hit)) {
             body.applyLinearImpulse(
                     getUserData().getJumpingLinearImpulse(),
                     body.getWorldCenter(), true
@@ -36,7 +37,7 @@ public class Runner extends GameActor {
     }
 
     public void dodge() {
-        if (!jumping) {
+        if (!(jumping || hit)) {
             body.setTransform(
                     getUserData().getDodgePosition(),
                     getUserData().getDodgeAngle()
@@ -47,10 +48,21 @@ public class Runner extends GameActor {
 
     public void stopDodge() {
         dodging = false;
-        body.setTransform(getUserData().getRunningPosition(), 0f);
+        if (!hit) {
+            body.setTransform(getUserData().getRunningPosition(), 0f);
+        }
     }
 
     public boolean isDodging() {
         return dodging;
+    }
+
+    public void hit() {
+        body.applyAngularImpulse(getUserData().getHitAngularImpulse(), true);
+        hit = true;
+    }
+
+    public boolean isHit() {
+        return hit;
     }
 }
