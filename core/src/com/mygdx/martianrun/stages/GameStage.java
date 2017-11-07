@@ -4,18 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.martianrun.actors.Ground;
 import com.mygdx.martianrun.actors.Runner;
+import com.mygdx.martianrun.utils.BodyUtils;
 import com.mygdx.martianrun.utils.WorldUtils;
 
 /**
  * Created by mkemp on 11/7/17.
  */
 
-public class GameStage extends Stage {
+public class GameStage extends Stage implements ContactListener {
 
     // These will be our viewport measurements wile working with the debug renderer.
     private static final int VIEWPORT_WIDTH = 20;
@@ -44,6 +50,7 @@ public class GameStage extends Stage {
 
     private void setupWorld() {
         world = WorldUtils.createWorld();
+        world.setContactListener(this);
         setupGround();
         setupRunner();
     }
@@ -119,5 +126,32 @@ public class GameStage extends Stage {
      */
     private void translateScreenToWorldCoordinates(float x, float y) {
         getCamera().unproject(touchPoint.set(x, y, 0));
+    }
+
+    @Override
+    public void beginContact(Contact contact) {
+
+        Body a = contact.getFixtureA().getBody();
+        Body b = contact.getFixtureB().getBody();
+
+        if ((BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsGround(b)) ||
+                (BodyUtils.bodyIsGround(a) && BodyUtils.bodyIsRunner(b))) {
+            runner.landed();
+        }
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+
     }
 }
