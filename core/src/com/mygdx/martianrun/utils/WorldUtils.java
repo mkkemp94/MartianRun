@@ -22,7 +22,7 @@ public class WorldUtils {
 
     public static Body createGround(World world) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(new Vector2(Constants.GROUND_X, Constants.GROUND_Y));
+        bodyDef.position.set(new Vector2(Constants.GROUND_X / 2, Constants.GROUND_Y));
         Body body = world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(Constants.GROUND_WIDTH, Constants.GROUND_HEIGHT / 2);
@@ -57,7 +57,7 @@ public class WorldUtils {
         Body body = world.createBody(bodyDef);
         body.createFixture(shape, enemyType.getDensity());
         body.resetMassData();
-        EnemyUserData userData = new EnemyUserData(enemyType.getWidth(), enemyType.getHeight());
+        EnemyUserData userData = new EnemyUserData(enemyType.getWidth(), enemyType.getHeight(), enemyType.getRegions());
         body.setUserData(userData);
         shape.dispose();
         return body;

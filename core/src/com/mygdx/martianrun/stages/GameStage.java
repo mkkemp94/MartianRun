@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -37,7 +36,7 @@ public class GameStage extends Stage implements ContactListener {
     private float accumulator = 0f;
 
     private OrthographicCamera camera;
-    private Box2DDebugRenderer renderer;
+    //private Box2DDebugRenderer renderer;
 
     private Rectangle screenLeftSide;
     private Rectangle screenRightSide;
@@ -48,7 +47,7 @@ public class GameStage extends Stage implements ContactListener {
         setupWorld();
         setupCamera();
         setupTouchControlAreas();
-        renderer = new Box2DDebugRenderer();
+        //renderer = new Box2DDebugRenderer();
     }
 
     private void setupWorld() {
@@ -129,7 +128,7 @@ public class GameStage extends Stage implements ContactListener {
     @Override
     public void draw() {
         super.draw();
-        renderer.render(world, camera.combined);
+        //renderer.render(world, camera.combined);
     }
 
     @Override
